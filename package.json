@@ -29,12 +29,23 @@
   },
   "dependencies": {
     "fastify": "^2.13.0",
-    "fastify-env": "^1.0.1"
+    "fastify-blipp": "^2.2.1",
+    "fastify-compress": "^2.0.1",
+    "fastify-cors": "^3.0.3",
+    "fastify-env": "^1.0.1",
+    "fastify-formbody": "^3.1.0",
+    "fastify-healthcheck": "^2.1.0",
+    "fastify-helmet": "^3.0.2",
+    "fastify-rate-limit": "^3.0.1",
+    "fastify-sensible": "^2.1.1",
+    "fastify-swagger": "^2.5.1",
+    "node-cleanup": "^2.1.2"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.20",
+    "@types/node-cleanup": "^2.1.1",
     "@types/sinon": "^7.0.13",
     "@types/supertest": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^2.12.0",

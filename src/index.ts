@@ -1,3 +1,10 @@
 import {App} from "./App";
+import nodeCleanup from "node-cleanup"
 
-new App().start();
+const app = new App();
+
+nodeCleanup(function () {
+    app.stop();
+});
+
+app.start();
