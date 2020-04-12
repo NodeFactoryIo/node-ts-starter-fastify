@@ -8,8 +8,8 @@
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/NodeFactoryIo/node-ts-starter.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FNodeFactoryIo%2Fnode-ts-starter)
 
 
-Starter repository with typescript and express and everything is dockerized.
-It also includes CI script that's gonna help you make your production ready docker image.
+Starter repository for developing fast API services with typescript and fastify.
+Docker friendly with default CI configuration.
 
 ## Requirements
 
