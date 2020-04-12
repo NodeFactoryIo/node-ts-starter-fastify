@@ -11,16 +11,15 @@
     "strict": true,
     "skipLibCheck": true,
     "typeRoots": [
-      "node_modules/@types",
-      "types"
+      "./node_modules/@types",
+      "./@types"
     ]
   },
   "include": [
-    "src/**/*.ts",
+    "**/*.ts",
     "test/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "src/Migrations"
+    "node_modules"
   ]
 }

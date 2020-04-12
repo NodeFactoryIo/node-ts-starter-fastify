@@ -27,7 +27,10 @@
     "dev": "./node_modules/nodemon/bin/nodemon.js",
     "task": "ts-node ./tasksfile.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "fastify": "^2.13.0",
+    "fastify-env": "^1.0.1"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
