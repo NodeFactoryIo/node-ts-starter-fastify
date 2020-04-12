@@ -1,0 +1,25 @@
+{
+  "env": {
+    "mocha": true,
+    "node": true,
+    "es6": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-require-imports": "error",
+    "@typescript-eslint/ban-ts-ignore": "warn",
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "varsIgnorePattern": "^_"
+    }],
+    "max-len": ["error", {
+      "code": 120
+    }]
+  }
+}

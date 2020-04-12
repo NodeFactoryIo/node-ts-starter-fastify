@@ -1,0 +1,83 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/app
+    machine:
+      image: circleci/classic:latest
+    steps:
+    - checkout
+    - run: chown -R $USER:$USER ~/app
+    - restore_cache:
+        keys:
+        - v2-docker-{{ .Branch }}
+    - run:
+        name: Load Docker layers cache
+        command: |
+          set +o pipefail
+          docker load -i ~/docker-layers.tar || true
+    - run:
+        name: Build application Docker image
+        command: |
+          export IMAGE_TAG=$CIRCLE_SHA1
+          docker-compose build
+    - run:
+        name: Tag docker image as latest
+        command: |
+          docker tag nodefactory/nodejs-ts-starter:${CIRCLE_SHA1} nodefactory/nodejs-ts-starter:latest
+    - run:
+        name: Set coveralls variables
+        command: |
+          touch .coveralls.env
+          echo "COVERALLS_SERVICE_NAME=circle-ci" >> .coveralls.env
+          echo "CIRCLECI=true" >> .coveralls.env
+          echo "COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN}" >> .coveralls.env
+          echo "CIRCLE_BUILD_NUM=${CIRCLE_BUILD_NUM}" >> .coveralls.env
+          echo "CIRCLE_BUILD_NUM=${CIRCLE_BUILD_NUM}" >> .coveralls.env
+          echo "CI_PULL_REQUEST=${CI_PULL_REQUEST}" >> .coveralls.env
+          echo "CIRCLE_SHA1=${CIRCLE_SHA1}" >> .coveralls.env
+          echo "CIRCLE_BRANCH=${CIRCLE_BRANCH}" >> .coveralls.env
+    - run:
+        name: Send test results to Coveralls
+        command: |
+          docker run --env-file .coveralls.env nodefactory/nodejs-ts-starter:${CIRCLE_SHA1} sh -c "npm run coverage && npm run coveralls"
+    - run:
+        name: Save docker layers cache
+        command: |
+          docker save -o ~/docker-layers.tar node:12.13-alpine
+          docker save -o ./image.tar nodefactory/nodejs-ts-starter:latest
+    - save_cache:
+        key: v2-docker-{{ .Branch }}-{{ epoch }}
+        paths:
+        - ~/docker-layers.tar
+    - persist_to_workspace:
+        root: ./
+        paths:
+        - ./image.tar
+  deploy:
+    working_directory: ~/app
+    machine:
+      image: circleci/classic:latest
+    steps:
+    - checkout
+    - attach_workspace:
+        at: ./
+    - run:
+        name: Load Docker images
+        command: |
+          set +o pipefail
+          docker load -i ./image.tar || true
+    - run:
+        name: Build production image
+        command: docker build -t final -f Dockerfile.production .
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+    - build
+    - deploy:
+        requires:
+        - build
+        filters:
+          branches:
+            only:
+            - master
