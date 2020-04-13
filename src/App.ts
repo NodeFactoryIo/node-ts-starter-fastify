@@ -27,6 +27,7 @@ export class App {
 
     public async start(): Promise<void> {
         await this.instance.ready();
+        this.instance.blipp();
         return new Promise((resolve, reject) => {
             this.instance.listen(
                 this.instance.config.SERVER_PORT,
