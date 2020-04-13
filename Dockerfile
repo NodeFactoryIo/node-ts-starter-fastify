@@ -20,7 +20,7 @@ RUN apk update && apk add --no-cache libpq postgresql-dev g++ make python && rm 
 
 WORKDIR /app
 
-COPY --from=dev /usr/app/dist/src /app
+COPY --from=dev /usr/app/dist /app
 COPY --from=dev /usr/app/package.json /app/
 COPY --from=dev /usr/app/yarn.lock /app/
 
