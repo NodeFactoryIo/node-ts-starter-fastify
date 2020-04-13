@@ -1,4 +1,6 @@
-FROM node:12.13-alpine
+FROM node:12.13-alpine as dev
+
+RUN apk update && apk add --no-cache libpq postgresql-dev g++ make python && rm -rf /var/cache/apk/*
 
 WORKDIR /usr/app
 
@@ -6,12 +8,26 @@ WORKDIR /usr/app
 COPY yarn.lock .
 COPY package.json .
 
-RUN yarn install --frozen-lockfile && yarn cache clean
+RUN yarn install --non-interactive --ignore-scripts --frozen-lockfile && yarn cache clean
 
 COPY . .
 
-RUN yarn run compile
+RUN yarn run build
+
+FROM node:12.13-alpine as production
+
+RUN apk update && apk add --no-cache libpq postgresql-dev g++ make python && rm -rf /var/cache/apk/*
+
+WORKDIR /app
+
+COPY --from=dev /usr/app/dist/src /app
+COPY --from=dev /usr/app/package.json /app/
+COPY --from=dev /usr/app/yarn.lock /app/
 
 RUN chown -R node: .
 
 USER node
+
+RUN yarn install  --non-interactive --ignore-scripts --frozen-lockfile --production && yarn cache clean
+
+CMD ["node", "index.js"]

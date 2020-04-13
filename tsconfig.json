@@ -9,15 +9,16 @@
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "strict": true,
-    "skipLibCheck": true,
+    "noImplicitAny": true,
     "typeRoots": [
       "./node_modules/@types",
       "./@types"
     ]
   },
   "include": [
-    "**/*.ts",
-    "test/**/*.ts"
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "@types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
