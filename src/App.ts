@@ -31,7 +31,11 @@ export class App {
   }
 
   public async start(): Promise<void> {
-    this.instance.decorate("db", await getDatabaseConnection());
+    this.instance
+      .decorate("db", await getDatabaseConnection())
+      .addHook("onClose", async function (instance) {
+        await instance.db.close();
+      });
     await this.instance.ready();
     this.instance.blipp();
     return new Promise((resolve, reject) => {
