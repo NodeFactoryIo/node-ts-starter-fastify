@@ -33,6 +33,6 @@
     "@typescript-eslint/type-annotation-spacing": "error",
     "prefer-const": "error",
     "no-consecutive-blank-lines": 0,
-    "no-console": "warn"
+    "no-console": "error"
   }
 }

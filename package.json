@@ -31,11 +31,11 @@
     "seeder": "ts-node ./node_modules/typeorm-seeding/dist/cli.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "start:server": "node --inspect=0.0.0.0:56745 -r ts-node/register -r dotenv/config src/index.ts",
-    "dev": "./node_modules/nodemon/bin/nodemon.js"
+    "nodemon": "./node_modules/nodemon/bin/nodemon.js"
   },
   "dependencies": {
     "fastify": "^2.13.0",
-    "fastify-blipp": "^2.2.1",
+    "@nodefactory/fastify-blipp": "^2.2.1",
     "fastify-compress": "^2.0.1",
     "fastify-cors": "^3.0.3",
     "fastify-env": "^1.0.1",
@@ -49,7 +49,8 @@
     "pg": "^8.0.2",
     "pg-native": "^3.0.0",
     "typeorm": "^0.2.24",
-    "typeorm-seeding": "^1.4.4"
+    "typeorm-seeding": "^1.4.4",
+    "@nodefactory/winston": "^3.2.1"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",

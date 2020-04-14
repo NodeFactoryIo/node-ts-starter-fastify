@@ -10,11 +10,13 @@ import fastifyRateLimit from "fastify-rate-limit";
 import fastifySensible from "fastify-sensible";
 import fastifySwagger from "fastify-swagger";
 import {swaggerConfiguration} from "./services/swagger";
-import fastifyBlipp from "fastify-blipp";
+import fastifyBlipp from "@nodefactory/fastify-blipp";
 import fastifyHealthCheck from "fastify-healthcheck";
 import {Connection} from "typeorm";
 import {getDatabaseConnection} from "./services/db";
 import {routesPlugin} from "./services/plugins/routes";
+import {logger} from "./services/logger";
+import {fastifyLogger} from "./services/logger/fastify";
 
 export class App {
 
@@ -22,7 +24,7 @@ export class App {
 
   constructor() {
     this.instance = fastify({
-      //TODO: logger
+      logger: fastifyLogger,
       return503OnClosing: true
     }) as FastifyInstance<Server, IncomingMessage, ServerResponse, Config>;
     this.registerPlugins();
@@ -35,12 +37,11 @@ export class App {
     return new Promise((resolve, reject) => {
       this.instance.listen(
         this.instance.config.SERVER_PORT,
-        this.instance.config.SERVER_ADDRESS, (err, address) => {
+        this.instance.config.SERVER_ADDRESS, (err) => {
           if(err) {
-            console.warn("Failed to start server: ", err);
+            logger.error("Failed to start server: ", err);
             reject();
           }
-          console.log("Server started on " + address);
           resolve();
         });
     });
@@ -60,7 +61,10 @@ export class App {
     this.instance.register(fastifyRateLimit, {  max: process.env.MAX_REQ_PER_MIN || 100, timeWindow: '1 minute'});
     this.instance.register(fastifySensible);
     this.instance.register(fastifySwagger, swaggerConfiguration);
-    this.instance.register(fastifyBlipp);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.instance.register(fastifyBlipp as any, {blippLog: (message: string) => {
+      message.split("\n").forEach(logger.info);
+    }});
     this.instance.register(fastifyHealthCheck, {
       healthcheckUrl: "/health",
       underPressureOptions: {
