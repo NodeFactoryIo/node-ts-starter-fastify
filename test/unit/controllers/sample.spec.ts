@@ -6,6 +6,7 @@ import {SampleRepository} from "../../../src/repositories/sample";
 import {factory} from "typeorm-seeding";
 import {Sample} from "../../../src/entities";
 import "../../../src/services/db/factories/sample.factory";
+import {logger} from "../../../src/services/logger";
 
 describe("sample controller", function () {
 
@@ -13,13 +14,18 @@ describe("sample controller", function () {
   let sampleRepositoryStub: SinonStubbedInstance<SampleRepository>;
   
   beforeEach(function () {
+    logger.silent = true;
     app = new App();
     sampleRepositoryStub = sinon.createStubInstance(SampleRepository);
     app.instance.decorate("db", {
       getCustomRepository: () =>  sampleRepositoryStub
     });
   });
-    
+
+  afterEach(function () {
+    logger.silent = false;
+  });
+
   it("get samples", async function () {
     sampleRepositoryStub.find.resolves([]);
     try {

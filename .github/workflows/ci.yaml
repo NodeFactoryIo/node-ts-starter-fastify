@@ -1,0 +1,24 @@
+name: CI check
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: 12.x
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+      - run: yarn install --frozen-lockfile
+      - run: yarn run build:docker
+      - run: yarn run task npm build
+      - run: yarn run task npm lint
+      - run: yarn run task npm test:unit
+        env:
+          CI: true

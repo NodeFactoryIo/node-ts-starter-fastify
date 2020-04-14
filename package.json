@@ -25,6 +25,7 @@
     "init": "mkdir dist",
     "prebuild": "yarn run clean && yarn run init",
     "build": "tsc -p tsconfig.build.json --sourceMap --outDir dist",
+    "build:docker": "yarn run task build",
     "clean": "rm -rf dist",
     "task": "ts-node ./tasksfile.ts",
     "typeorm-ts": "ts-node ./node_modules/typeorm/cli.js",
