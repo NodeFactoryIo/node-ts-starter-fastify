@@ -1,0 +1,21 @@
+name: Publish image
+
+on:
+  push:
+    branches:
+      - master # Change this to your default branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: 12.4.0
+      - run: cp .env.sample .env
+      - run: docker build --target production -t docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:latest .
+      - run: docker tag docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:latest docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:${{github.sha}}
+      - run: docker push docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:${{github.sha}}
+      - run: docker push docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:latest
