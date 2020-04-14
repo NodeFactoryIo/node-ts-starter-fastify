@@ -13,22 +13,18 @@ Docker friendly with default CI configuration.
 ## Requirements
 
 Following software is required to be installed to use this repo:
- * [NodeJs](https://nodejs.org/en/) >= v8.4.0
+ * [NodeJs](https://nodejs.org/en/) >= v12
  * [Yarn](https://yarnpkg.com/en/docs/install#debian-stable)
  * Docker
  * docker-compose
 
 ## Usage
 
-Make sure to run `yarn install` before first build or 
-each time you change dependencies in package.json.
+- `yarn install` - will run and configure everything for you
 
-On first use of this repo, run `npx task build` which will
-build docker image.You will have to run `npx task build` each time
-you change dependencies in package.json (yarn.lock).
+#### Database
+- use `yarn db:migration:new -n <class name>` to generate new migration file (same goes for entity and subscriber)
+- `yarn db:migrate` - runs all pending migrations against database
+- `yarn db:revert` - reverts last migration, run multiple times to revert everything
+- `yarn db:seed` - seeds database with fake data (`src/services/db/seeders`)
 
-Run `npx task --help` to see all available commands and their description.
-
-## Notice
-* make sure you update yarn.lock before building
-* use sequelize-cli local to generate migrations (because of timestamp)
