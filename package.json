@@ -19,7 +19,7 @@
     "lint:style": "eslint --color --ext .ts src/ test/",
     "lint:types": "tsc --noEmit --pretty",
     "test": "yarn run test:unit",
-    "test:unit": "NODE_ENV=test nyc --reporter=text --all --include \"src/**/*.ts\"  mocha -r ts-node/register \"test/unit/**/*.spec.ts\"",
+    "test:unit": "NODE_ENV=test nyc --all --include \"src/**/*.ts\"  mocha -r ts-node/register \"test/unit/**/*.spec.ts\"",
     "test:e2e": "SERVER_PORT=0 mocha --timeout 30000 -r ts-node/register -r dotenv/config \"test/e2e/**/*.spec.ts\"",
     "postinstall": "env-prompt -d .env.sample && task build",
     "init": "mkdir dist",
@@ -30,7 +30,6 @@
     "task": "ts-node ./tasksfile.ts",
     "typeorm-ts": "ts-node ./node_modules/typeorm/cli.js",
     "seeder": "ts-node ./node_modules/typeorm-seeding/dist/cli.js",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "start:server": "node --inspect=0.0.0.0:56745 -r ts-node/register -r dotenv/config src/index.ts",
     "nodemon": "./node_modules/nodemon/bin/nodemon.js"
   },
