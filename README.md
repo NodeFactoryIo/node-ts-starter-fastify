@@ -27,4 +27,8 @@ Following software is required to be installed to use this repo:
 - `yarn db:migrate` - runs all pending migrations against database
 - `yarn db:revert` - reverts last migration, run multiple times to revert everything
 - `yarn db:seed` - seeds database with fake data (`src/services/db/seeders`)
-
+- `yarn run test:unit` - runs unit tests with coverage
+- `yarn run lint` runs following commands:
+   - `yarn run lint:style` - runs eslint against source code
+   - `yarn run lint:types` - checks typescript types
+- `yarn run start:dev` - runs docker-compose with your server and database, app will autoreload on changes
