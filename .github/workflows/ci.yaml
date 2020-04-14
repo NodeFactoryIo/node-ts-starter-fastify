@@ -16,6 +16,6 @@ jobs:
       - run: yarn run build:docker
       - run: yarn run task npm build
       - run: yarn run task npm lint
-      - run: yarn run task npm test:unit
+      - run: yarn run task npm "test:unit & coveralls"
         env:
           CI: true
