@@ -15,6 +15,11 @@ jobs:
         with:
           node-version: 12.4.0
       - run: cp .env.sample .env
+      - uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: docker build --target production -t docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:latest .
       - run: docker tag docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:latest docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:${{github.sha}}
       - run: docker push docker.pkg.github.com/nodefactoryio/node-ts-starter-fastify/master:${{github.sha}}
