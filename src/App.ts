@@ -51,8 +51,9 @@ export class App {
     });
   }
 
-  public async stop(): Promise<void> {
+  public async stop(signal: string): Promise<void> {
     await this.instance.close();
+    process.kill(process.pid, signal);
   }
 
   private registerPlugins(): void {

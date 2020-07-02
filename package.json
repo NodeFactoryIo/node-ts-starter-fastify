@@ -10,6 +10,7 @@
   "scripts": {
     "start:dev": "npx task dev",
     "db:migration:new": "yarn run typeorm-ts migration:create -n ",
+    "db:migration:generate": "yarn run typeorm-ts migration:create -n ",
     "db:entity:new": "yarn run typeorm-ts entity:create -n ",
     "db:subscriber:new": "yarn run typeorm-ts subscriber:create -n ",
     "db:migrate": "npx task npm typeorm-ts migration:run",
@@ -32,7 +33,7 @@
     "typeorm-ts": "ts-node ./node_modules/typeorm/cli.js",
     "seeder": "ts-node ./node_modules/typeorm-seeding/dist/cli.js",
     "start:server": "node --inspect=0.0.0.0:56745 -r ts-node/register -r dotenv/config src/index.ts",
-    "nodemon": "./node_modules/nodemon/bin/nodemon.js"
+    "NODE_ENV=development nodemon": "./node_modules/nodemon/bin/nodemon.js"
   },
   "dependencies": {
     "fastify": "^2.13.0",
