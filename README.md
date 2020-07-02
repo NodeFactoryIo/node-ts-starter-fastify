@@ -23,7 +23,8 @@ Following software is required to be installed to use this repo:
 - `yarn install` - will run and configure everything for you
 
 #### Database
-- use `yarn db:migration:new -n <class name>` to generate new migration file (same goes for entity and subscriber)
+- use `yarn db:migration:new <class name>` to generate new empty migration file (same goes for entity and subscriber)
+- use `docker-compose exec backend yarn db:migration:generate <class name>` to generate new auto generated migration
 - `yarn db:migrate` - runs all pending migrations against database
 - `yarn db:revert` - reverts last migration, run multiple times to revert everything
 - `yarn db:seed` - seeds database with fake data (`src/services/db/seeders`)
