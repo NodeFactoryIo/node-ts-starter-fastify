@@ -1,4 +1,4 @@
-import {Connection, createConnection, getConnectionOptions} from "typeorm";
+import {Connection, createConnection, getConnectionOptions, ObjectType, getConnection} from "typeorm";
 import {sleep} from "../utils";
 import {logger} from "../logger";
 import {PostgresConnectionCredentialsOptions} from "typeorm/driver/postgres/PostgresConnectionCredentialsOptions";
@@ -6,12 +6,17 @@ import {TypeOrmLogger} from "../logger/typeorm";
 
 export async function getDatabaseConnection(): Promise<Connection> {
   const opts = await getConnectionOptions();
-  let conn = await createConnection({
-    ...opts,
-    logger: new TypeOrmLogger()
-  });
-  conn = await openConnection(conn);
-  await conn.runMigrations({transaction: "all"});
+  let conn: Connection;
+  try {
+    conn = getConnection();
+  } catch{
+    conn = await createConnection({
+      ...opts,
+      logger: new TypeOrmLogger()
+    });
+    conn = await openConnection(conn);
+    await conn.runMigrations({transaction: "all"});
+  }
   return conn;
 }
 
@@ -28,4 +33,9 @@ async function openConnection(conn: Connection): Promise<Connection> {
     await sleep(3000);
     return openConnection(conn);
   }
+}
+
+export async function getRepository<T>(customRepository: ObjectType<T>): Promise<T> {
+  const connection = await getDatabaseConnection();
+  return connection.getCustomRepository<T>(customRepository);
 }
