@@ -15,7 +15,6 @@ export async function getDatabaseConnection(): Promise<Connection> {
       logger: new TypeOrmLogger()
     });
     conn = await openConnection(conn);
-    await conn.runMigrations({transaction: "all"});
   }
   return conn;
 }
