@@ -8,3 +8,4 @@ temp/
 *.log
 dist
 .nyc_output
+coverage

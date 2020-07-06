@@ -36,6 +36,7 @@ export class App {
       .addHook("onClose", async function (instance) {
         await instance.db.close();
       });
+    await this.instance.db.runMigrations({transaction: "all"});
     await this.instance.ready();
     this.instance.blipp();
     return new Promise((resolve, reject) => {
