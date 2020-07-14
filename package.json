@@ -33,7 +33,7 @@
     "typeorm-ts": "ts-node ./node_modules/typeorm/cli.js",
     "seeder": "ts-node ./node_modules/typeorm-seeding/dist/cli.js",
     "start:server": "node --inspect=0.0.0.0:56745 -r ts-node/register -r dotenv/config src/index.ts",
-    "NODE_ENV=development nodemon": "./node_modules/nodemon/bin/nodemon.js"
+    "nodemon": "NODE_ENV=development ./node_modules/nodemon/bin/nodemon.js"
   },
   "dependencies": {
     "fastify": "^2.13.0",
