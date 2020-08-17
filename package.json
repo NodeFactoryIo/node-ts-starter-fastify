@@ -81,6 +81,6 @@
     "typescript-eslint-parser": "^18.0.0"
   },
   "resolutions": {
-    "lodash": "4.17.15"
+    "lodash": "4.17.19"
   }
 }
