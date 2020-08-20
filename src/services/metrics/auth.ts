@@ -1,14 +1,18 @@
-import {Middleware} from "fastify";
-import {Server, IncomingMessage, ServerResponse} from "http";
+import {FastifyError, FastifyReply, FastifyRequest} from "fastify";
+import {ServerResponse} from "http";
 
-export const onlyWhitelisted: Middleware<Server, IncomingMessage, ServerResponse> = (
-  request: IncomingMessage,
-  reply: ServerResponse
-) => {
-  const whiteList = process.env.GRAFANA_WHITELIST?.split(',');
-
-  if (!whiteList?.includes(request.ip)) {
-    // eslint-disable-next-line no-console
-    reply.status(401).send("You are not authorized to access metrics.");
+export async function onlyWhitelisted(
+  request: FastifyRequest
+): Promise<FastifyReply<ServerResponse> | void> {
+  const whiteList = process.env.MTRICS_IP_WHITELIST?.split(',');
+  if (whiteList?.length === 1 && whiteList[0] === "*") {
+    return;
+  }
+  if (!whiteList?.includes(request.ip ?? "")) {
+    request.log.warn("Unathorized access", {whiteList, remoteIp: request.ip});
+    throw {
+      statusCode: 401,
+      message: "You are not authorized to access metrics"
+    } as FastifyError;
   }
 }
