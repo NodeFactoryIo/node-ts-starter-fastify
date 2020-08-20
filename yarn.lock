@@ -641,6 +641,11 @@ bindings@1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
+bintrees@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/bintrees/-/bintrees-1.0.1.tgz#0e655c9b9c2435eaab68bf4027226d2b55a34524"
+  integrity sha1-DmVcm5wkNeqraL9AJyJtK1WjRSQ=
+
 bluebird@~3.4.1:
   version "3.4.7"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.4.7.tgz#f72d760be09b7f76d08ed8fae98b289a8d05fab3"
@@ -1665,6 +1670,14 @@ fastify-helmet@^3.0.2:
     nocache "^2.0.0"
     referrer-policy "^1.1.0"
     x-xss-protection "^1.1.0"
+
+fastify-metrics@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/fastify-metrics/-/fastify-metrics-5.0.1.tgz#561ad44715b5dea38f87a7301d9f4d2685be69a3"
+  integrity sha512-t9ZydwJIRo04EXEQa3oL7s0Jz+XYAfzTeiXVroDNXFWDuDVmbRHEjz7JOdfzhMb+TuaZdSm4zHxVZJtVjzpDng==
+  dependencies:
+    fastify-plugin "^1.6.0"
+    prom-client "^12.0.0"
 
 fastify-plugin@^1.0.0, fastify-plugin@^1.0.1, fastify-plugin@^1.2.1, fastify-plugin@^1.3.0, fastify-plugin@^1.5.0, fastify-plugin@^1.6.0:
   version "1.6.1"
@@ -3412,6 +3425,13 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
+prom-client@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/prom-client/-/prom-client-12.0.0.tgz#9689379b19bd3f6ab88a9866124db9da3d76c6ed"
+  integrity sha512-JbzzHnw0VDwCvoqf8y1WDtq4wSBAbthMB1pcVI/0lzdqHGJI3KBJDXle70XK+c7Iv93Gihqo0a5LlOn+g8+DrQ==
+  dependencies:
+    tdigest "^0.1.1"
+
 proxy-addr@^2.0.5, proxy-addr@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.6.tgz#fdc2336505447d3f2f2c638ed272caf614bbb2bf"
@@ -4163,6 +4183,13 @@ tasksfile@5.1.0:
     "@pawelgalazka/cli" "2.0.2"
     "@pawelgalazka/shell" "2.0.0"
     chalk "2.3.0"
+
+tdigest@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/tdigest/-/tdigest-0.1.1.tgz#2e3cb2c39ea449e55d1e6cd91117accca4588021"
+  integrity sha1-Ljyyw56kSeVdHmzZEReszKRYgCE=
+  dependencies:
+    bintrees "1.0.1"
 
 term-size@^2.1.0:
   version "2.2.0"
