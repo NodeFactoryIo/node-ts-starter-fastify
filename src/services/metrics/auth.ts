@@ -4,7 +4,7 @@ import {ServerResponse} from "http";
 export async function onlyWhitelisted(
   request: FastifyRequest
 ): Promise<FastifyReply<ServerResponse> | void> {
-  const whiteList = process.env.MTRICS_IP_WHITELIST?.split(',');
+  const whiteList = process.env.METRICS_IP_WHITELIST?.split(',');
   if (whiteList?.length === 1 && whiteList[0] === "*") {
     return;
   }

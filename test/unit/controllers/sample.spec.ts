@@ -12,7 +12,7 @@ describe("sample controller", function () {
 
   let app: App;
   let sampleRepositoryStub: SinonStubbedInstance<SampleRepository>;
-  
+
   beforeEach(function () {
     logger.silent = true;
     app = new App();
@@ -22,8 +22,9 @@ describe("sample controller", function () {
     });
   });
 
-  afterEach(function () {
+  afterEach(async function () {
     logger.silent = false;
+    app.instance.metrics.client.register.clear();
   });
 
   it("get samples", async function () {
@@ -38,7 +39,7 @@ describe("sample controller", function () {
       assert.fail(e);
     }
   });
-    
+
   it("get filtered samples", async function () {
     const sampleFactory = factory(Sample)();
     const sample = await sampleFactory.make({name: "Test"});
@@ -59,5 +60,5 @@ describe("sample controller", function () {
       assert.fail(e);
     }
   });
-    
+
 });

@@ -18,7 +18,6 @@ import {getDatabaseConnection} from "./services/db";
 import {routesPlugin} from "./services/plugins/routes";
 import {logger} from "./services/logger";
 import {fastifyLogger} from "./services/logger/fastify";
-import {onlyWhitelisted} from "./services/metrics/auth";
 
 export class App {
 
@@ -84,19 +83,11 @@ export class App {
         }
       }
     });
-    this.instance.register(routesPlugin);
-    this.instance.register(fastifyMetrics,  { blacklist: '/metrics' });
-    this.instance.route({
-      url: "/metrics",
-      method: 'GET',
-      schema: {hide: true},
-      preValidation: [
-        onlyWhitelisted
-      ],
-      handler: (_, reply) => {
-        reply.type('text/plain').send(this.instance.metrics.client.register.metrics());
-      },
+    this.instance.register(fastifyMetrics,  {
+      blacklist: '/metrics',
+      enableDefaultMetrics: true
     });
+    this.instance.register(routesPlugin);
   }
 }
 
