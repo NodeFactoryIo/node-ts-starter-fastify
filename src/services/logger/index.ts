@@ -14,12 +14,12 @@ const format = winston.format.printf(({ level, message, label, timestamp, reques
 const transportsConfig: Transports[] = [
   new winston.transports.Console({
     format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.align(),
-        format
+      winston.format.timestamp(),
+      winston.format.align(),
+      format
     )
-  }),
-]
+  })
+];
 
 if(process.env.LOKI_LOGGING ?? "") {
   transportsConfig.push(new LokiTransport({
