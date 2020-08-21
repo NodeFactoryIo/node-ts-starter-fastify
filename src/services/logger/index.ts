@@ -1,4 +1,5 @@
 import winston from "@nodefactory/winston";
+import {LokiTransport} from "winston-loki";
 
 const format = winston.format.printf(({ level, message, label, timestamp, requestId }) => {
   message = winston.format.colorize({all: false, message: true}).colorize(level, message);
@@ -11,7 +12,7 @@ const format = winston.format.printf(({ level, message, label, timestamp, reques
 
 export const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || "debug",
-
+  
   format: winston.format.json({}),
   defaultMeta: {
     label: "default"
@@ -23,6 +24,9 @@ export const logger = winston.createLogger({
         winston.format.align(),
         format
       )
+    }),
+    new LokiTransport({
+      host: "http://localhost:3100",
     })
   ]
 });
