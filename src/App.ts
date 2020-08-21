@@ -10,6 +10,7 @@ import fastifyRateLimit from "fastify-rate-limit";
 import fastifySensible from "fastify-sensible";
 import fastifySwagger from "fastify-swagger";
 import {swaggerConfiguration} from "./services/swagger";
+import fastifyMetrics from "fastify-metrics";
 import fastifyBlipp from "@nodefactory/fastify-blipp";
 import fastifyHealthCheck from "fastify-healthcheck";
 import {Connection} from "typeorm";
@@ -43,7 +44,7 @@ export class App {
       this.instance.listen(
         this.instance.config.SERVER_PORT,
         this.instance.config.SERVER_ADDRESS, (err) => {
-          if(err) {
+          if (err) {
             logger.error("Failed to start server: ", err);
             reject();
           }
@@ -64,21 +65,27 @@ export class App {
     this.instance.register(fastifyCors as any, {origin: process.env.CORS_ORIGIN || true});
     this.instance.register(formBodyPlugin);
     this.instance.register(fastifyHelmet);
-    this.instance.register(fastifyRateLimit, {  max: process.env.MAX_REQ_PER_MIN || 100, timeWindow: '1 minute'});
+    this.instance.register(fastifyRateLimit, {max: process.env.MAX_REQ_PER_MIN || 100, timeWindow: '1 minute'});
     this.instance.register(fastifySensible);
     this.instance.register(fastifySwagger, swaggerConfiguration);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.instance.register(fastifyBlipp as any, {blippLog: (message: string) => {
-      message.split("\n").forEach(logger.info);
-    }});
+    this.instance.register(fastifyBlipp as any, {
+      blippLog: (message: string) => {
+        message.split("\n").forEach(logger.info);
+      }
+    });
     this.instance.register(fastifyHealthCheck, {
       healthcheckUrl: "/health",
       underPressureOptions: {
         healthCheckInterval: 5000,
-        healthCheck: async() => {
+        healthCheck: async () => {
           return true;
         }
       }
+    });
+    this.instance.register(fastifyMetrics,  {
+      blacklist: '/metrics',
+      enableDefaultMetrics: true
     });
     this.instance.register(routesPlugin);
   }

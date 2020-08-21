@@ -25,7 +25,7 @@ class FastifyLogger {
     chunk: string, encoding: string, callback: (error?: (Error | null), data?: {level: string; message: string}) => void
   ): void =>  {
     const log: {
-      msg: string; responseTime: number; reqId: number; req?: {msg: string}; res?: {statusCode: number};
+      level: number; msg: string; responseTime: number; reqId: number; req?: {msg: string}; res?: {statusCode: number};
     } = JSON.parse(chunk);
     if(log.req) {
       callback(null, {level: "debug", message: log.req.msg});
@@ -38,11 +38,17 @@ class FastifyLogger {
         }
       );
     } else {
-      callback(null, {level: "info", message: log.msg});
+      let loggerLevel: string;
+      switch (log.level) {
+        case 40: loggerLevel = "warn"; break;
+        case 50: loggerLevel = "error"; break;
+        default: loggerLevel = "info";
+      }
+      callback(null, {level: loggerLevel, message: log.msg});
     }
-    
+
   };
-  
+
 }
 
 export const fastifyLogger = new FastifyLogger();
