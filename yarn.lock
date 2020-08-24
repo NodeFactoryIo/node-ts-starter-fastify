@@ -779,6 +779,11 @@ browser-stdout@1.3.1:
   resolved "https://registry.yarnpkg.com/browser-stdout/-/browser-stdout-1.3.1.tgz#baa559ee14ced73452229bad7326467c61fabd60"
   integrity sha512-qhAVI1+Av2X7qelOfAIYwXONood6XlZE/fXaBSmW/T5SzLAmCgzi+eiWE7fUvbHaeNBQH13UftjpXxsfLkMpgw==
 
+btoa@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/btoa/-/btoa-1.2.1.tgz#01a9909f8b2c93f6bf680ba26131eb30f7fa3d73"
+  integrity sha512-SB4/MIGlsiVkMcHmT+pSmIPoNDoHg+7cMzmt3Uxt628MTz2487DKSqK/fuhFBrkuqrYv5UCEnACpF4dTFNKc/g==
+
 buffer-alloc-unsafe@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/buffer-alloc-unsafe/-/buffer-alloc-unsafe-1.1.0.tgz#bd7dc26ae2972d0eda253be061dba992349c19f0"
@@ -2203,7 +2208,7 @@ globals@^12.1.0:
   dependencies:
     type-fest "^0.8.1"
 
-got@^9.5.0, got@^9.6.0:
+got@^9.6.0:
   version "9.6.0"
   resolved "https://registry.yarnpkg.com/got/-/got-9.6.0.tgz#edf45e7d67f99545705de1f7bbeeeb121765ed85"
   integrity sha512-R7eWptXuGYxwijs0eV+v3o6+XH1IqVK8dJOEecQfTmkncw9AV4dcw/Dhxi8MdlqPthxxpZyizMzyg8RTmEsG+Q==
@@ -3052,11 +3057,6 @@ mocha@^6.1.4:
     yargs "13.3.2"
     yargs-parser "13.1.2"
     yargs-unparser "1.6.0"
-
-moment@^2.24.0:
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
-  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
 
 ms@2.0.0:
   version "2.0.0"
@@ -4910,14 +4910,13 @@ widest-line@^3.1.0:
   dependencies:
     string-width "^4.0.0"
 
-winston-loki@^5.1.2:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/winston-loki/-/winston-loki-5.1.2.tgz#0f12f5a01b8be727217ea00360718b1bf44915cc"
-  integrity sha512-jb+p1m844PGLchYyZKnkcaBq1jUtoBnvV9pMGCnYPepJOdfVkBJUUbca1ORk4zmsG/NO1f5HZU8CXPTeih6kjQ==
+winston-loki@6.0.0-rc.1:
+  version "6.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/winston-loki/-/winston-loki-6.0.0-rc.1.tgz#a319fba80b5d763c2196293be930e8621f1ed41d"
+  integrity sha512-MKoyALDwdZf8Kks6/0zydcYglit8GWUUSRi1ydEu63Y5UGde0mw4VwV0FrsjzCvZw4ShdmGkzaIPUqwaZGTVnw==
   dependencies:
     async-exit-hook "2.0.1"
-    got "^9.5.0"
-    moment "^2.24.0"
+    btoa "^1.2.1"
     protobufjs "^6.8.8"
     winston-transport "^4.3.0"
   optionalDependencies:
