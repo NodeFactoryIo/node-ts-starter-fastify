@@ -8,8 +8,8 @@ class FastifyLogger {
   public readonly stream: Stream;
 
   public readonly serializers = {
-    req: (request: IncomingMessage&FastifyRequest) => {
-      return { msg: `${request.ip} -> ${request.hostname}\t${request.method}:${request.url}\tRequestId: ${request.id}`};
+    req: (request: IncomingMessage & FastifyRequest) => {
+      return {msg: `${request.ip} -> ${request.hostname}\t${request.method}:${request.url}\tRequestId: ${request.id}`};
     },
   };
 
@@ -18,18 +18,26 @@ class FastifyLogger {
       objectMode: true,
       transform: this.transform
     });
-    this.stream.pipe(logger.child({label: "http"}));
+    this.stream.pipe(logger.child({
+      labels: {
+        module: "http"
+      }
+
+    }));
   }
 
   private transform = (
     chunk: string, encoding: string, callback: (error?: (Error | null), data?: {level: string; message: string}) => void
-  ): void =>  {
+  ): void => {
     const log: {
-      level: number; msg: string; responseTime: number; reqId: number; req?: {msg: string}; res?: {statusCode: number};
+      level: number; msg: string; responseTime: number; reqId: number; req?: {msg: string};
+      res?: {statusCode: number}; type?: string; stack?: string;
     } = JSON.parse(chunk);
-    if(log.req) {
+    if (log.stack) {
+      callback(null, {level: "error", message: `RequestId: ${log.reqId} ${log.stack}`});
+    } else if (log.req) {
       callback(null, {level: "debug", message: log.req.msg});
-    } else if(log.res) {
+    } else if (log.res) {
       callback(
         null,
         {

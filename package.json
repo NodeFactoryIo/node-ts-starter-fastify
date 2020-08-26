@@ -38,6 +38,7 @@
   "dependencies": {
     "@nodefactory/fastify-blipp": "^2.2.1",
     "@nodefactory/winston": "^3.2.1",
+    "@nodefactory/winston-loki": "^6.0.0-rc.2",
     "fastify": "^2.15.1",
     "fastify-compress": "^2.0.1",
     "fastify-cors": "^3.0.3",
