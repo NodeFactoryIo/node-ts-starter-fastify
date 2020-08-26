@@ -1,4 +1,4 @@
-declare module "winston-loki" {
+declare module "@nodefactory/winston-loki" {
 
   import TransportStream from "winston-transport";
   import * as logform from 'logform';
