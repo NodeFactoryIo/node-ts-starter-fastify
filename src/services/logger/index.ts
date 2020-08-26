@@ -1,8 +1,8 @@
 import winston from "@nodefactory/winston";
 
-const format = winston.format.printf(({ level, message, label, timestamp, requestId }) => {
+const format = winston.format.printf(({ level, message, label, timestamp, requestId }, ...rest) => {
   message = winston.format.colorize({all: false, message: true}).colorize(level, message);
-  let log = `${timestamp} [${label}] ${level.toUpperCase()}: ${message}`;
+  let log = `${timestamp} [${label}] ${level.toUpperCase()}: ${message} ${rest}`;
   if(requestId) {
     log += " RequestId: " + requestId;
   }
