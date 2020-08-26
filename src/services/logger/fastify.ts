@@ -23,7 +23,7 @@ class FastifyLogger {
         module: "http"
       }
 
-      }));
+    }));
   }
 
   private transform = (

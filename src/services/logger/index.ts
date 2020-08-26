@@ -38,7 +38,7 @@ export const logger = winston.createLogger({
   defaultMeta: {
     labels: {
       module: "default"
-        }
+    }
   },
   transports: transportsConfig
 });
