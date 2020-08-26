@@ -1,10 +1,10 @@
 import winston from "@nodefactory/winston";
-import LokiTransport from "winston-loki";
+import LokiTransport from "@nodefactory/winston-loki";
 import Transports from "winston-transport";
 
-const format = winston.format.printf(({level, message, label, timestamp, requestId}) => {
+const format = winston.format.printf(({level, message, labels, timestamp, requestId}) => {
   message = winston.format.colorize({all: false, message: true}).colorize(level, message);
-  let log = `${timestamp} [${label}] ${level.toUpperCase()}: ${message}`;
+  let log = `${timestamp} [${labels.module}] ${level.toUpperCase()}: ${message}`;
   if (requestId) {
     log += " RequestId: " + requestId;
   }
@@ -37,7 +37,9 @@ export const logger = winston.createLogger({
 
   format: winston.format.json({}),
   defaultMeta: {
-    label: "default"
+    labels: {
+      module: "default"
+        }
   },
   transports: transportsConfig
 });
