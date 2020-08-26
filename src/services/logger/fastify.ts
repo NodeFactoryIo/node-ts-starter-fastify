@@ -8,8 +8,8 @@ class FastifyLogger {
   public readonly stream: Stream;
 
   public readonly serializers = {
-    req: (request: IncomingMessage&FastifyRequest) => {
-      return { msg: `${request.ip} -> ${request.hostname}\t${request.method}:${request.url}\tRequestId: ${request.id}`};
+    req: (request: IncomingMessage & FastifyRequest) => {
+      return {msg: `${request.ip} -> ${request.hostname}\t${request.method}:${request.url}\tRequestId: ${request.id}`};
     },
   };
 
