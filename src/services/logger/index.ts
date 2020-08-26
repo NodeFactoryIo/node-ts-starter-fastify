@@ -24,7 +24,7 @@ const transportsConfig: Transports[] = [
 if (process.env.WINSTON_LOKI_URL) {
   transportsConfig.push(new LokiTransport({
     host: process.env.WINSTON_LOKI_URL,
-    batching: false,
+    batching: process.env.WINSTON_LOKI_BATCHING == "true",
     labels: {
       app: process.env.WINSTON_LOKI_APP_NAME ?? "",
     }
