@@ -200,18 +200,6 @@
     chalk "^2.4.2"
     fastify-plugin "^1.6.0"
 
-"@nodefactory/winston-loki@^6.0.0-rc.2":
-  version "6.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@nodefactory/winston-loki/-/winston-loki-6.0.0-rc.2.tgz#ff76494e69a5ba0302ca60faf5fef9dc3fc357f5"
-  integrity sha512-IBXlHPSTrHt1Yhd6zfBanihjk/gCW2qqq5bBNCMw7e2zswyMdb4mdaowPX46xgtZl0EQiA/2waOzXWYzbZJwuw==
-  dependencies:
-    async-exit-hook "2.0.1"
-    btoa "^1.2.1"
-    protobufjs "^6.8.8"
-    winston-transport "^4.3.0"
-  optionalDependencies:
-    snappy "^6.1.1"
-
 "@nodefactory/winston@^3.2.1":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@nodefactory/winston/-/winston-3.2.1.tgz#756c730b1e1314f237835b487e9895db2a7d3501"
@@ -4921,6 +4909,18 @@ widest-line@^3.1.0:
   integrity sha512-NsmoXalsWVDMGupxZ5R08ka9flZjjiLvHVAWYOKtiKM8ujtZWr9cRffak+uSE48+Ob8ObalXpwyeUiyDD6QFgg==
   dependencies:
     string-width "^4.0.0"
+
+winston-loki@^6.0.0-rc.2:
+  version "6.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/winston-loki/-/winston-loki-6.0.0-rc.2.tgz#7469143aa9866f8c5d095d54dd346cdcac531a1a"
+  integrity sha512-qIjRsaMjEx9vQ0HkGb0XBAZcVSsD3TRTsZNlsW8GxUx04pJt3x7qT6UWKCKmjDR3UuUC9EYt24zOi1DSuM3JYw==
+  dependencies:
+    async-exit-hook "2.0.1"
+    btoa "^1.2.1"
+    protobufjs "^6.8.8"
+    winston-transport "^4.3.0"
+  optionalDependencies:
+    snappy "^6.1.1"
 
 winston-transport@^4.3.0:
   version "4.3.0"
