@@ -1,4 +1,4 @@
-declare module "@nodefactory/winston-loki" {
+declare module "winston-loki" {
 
   import TransportStream from "winston-transport";
   import * as logform from 'logform';
@@ -18,4 +18,3 @@ declare module "@nodefactory/winston-loki" {
     constructor(options: LokiTransportOptions);
   }
 }
-

@@ -1,5 +1,5 @@
 import winston from "@nodefactory/winston";
-import LokiTransport from "@nodefactory/winston-loki";
+import LokiTransport from "winston-loki";
 import Transports from "winston-transport";
 
 const format = winston.format.printf(({level, message, labels, timestamp, requestId}) => {
