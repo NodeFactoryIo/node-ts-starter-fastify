@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout: 10
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
@@ -14,9 +15,9 @@ jobs:
       - run: cp .env.sample .env
       - run: yarn install --frozen-lockfile
       - run: yarn run build:docker
-      - run: yarn run task npm build
-      - run: yarn run task npm lint
-      - run: yarn run task npm test:unit:ci
+      - run: yarn run build
+      - run: yarn run lint
+      - run: yarn run test:unit:ci
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
