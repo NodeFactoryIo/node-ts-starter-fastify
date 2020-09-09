@@ -25,7 +25,8 @@ function build(): void {
 }
 
 function e2e(): void {
-  sh("docker-compose run -e NODE_ENV=test --rm backend yarn run test:e2e", {async: false, nopipe: true});
+  sh("docker-compose -f docker-compose.e2e.yml up --abort-on-container-exit --exit-code-from backend",
+    {async: false, nopipe: true});
 }
 
 function unit(): void {
