@@ -55,18 +55,15 @@ export class App {
   }
 
   public async stop(signal: string | undefined): Promise<void> {
-    try {
-      await this.instance.db.close();
-      logger.info("Database connection closed");
-      await this.instance.close();
-      logger.info("App instance closed");
-    } catch (error) {
-      logger.error(`Error occurred during app stop because: ${error.stack}`);
-      await this.instance.db.close();
-      logger.info("Database connection closed");
-      await this.instance.close();
-      logger.info("App instance closed");
-    }
+    await this.instance.db.close()
+      .catch(error =>
+        logger.error(`Error occurred during app stop because: ${error.message}`)
+      );
+    await this.instance.close()
+      .catch(error =>
+        logger.error(`Error occurred during app stop because: ${error.message}`)
+      );
+
     if (signal !== "TEST") {
       process.kill(process.pid, signal);
     }
