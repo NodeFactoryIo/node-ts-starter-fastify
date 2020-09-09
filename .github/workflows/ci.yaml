@@ -18,7 +18,7 @@ jobs:
       - run: yarn run build
       - run: yarn run lint
       - run: yarn run test:unit:ci
-      - run: yarn run test:docker
+      - run: yarn run task e2e
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
