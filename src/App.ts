@@ -32,30 +32,49 @@ export class App {
   }
 
   public async start(): Promise<void> {
-    this.instance
-      .decorate("db", await getDatabaseConnection())
-      .addHook("onClose", async function (instance) {
-        await instance.db.close();
+    try {
+      await this.initDb();
+
+      await this.instance.ready();
+      this.instance.blipp();
+      return new Promise((resolve, reject) => {
+        this.instance.listen(
+          this.instance.config.SERVER_PORT,
+          this.instance.config.SERVER_ADDRESS, (err) => {
+            if (err) {
+              logger.error("Failed to start server: ", err);
+              reject();
+            }
+            resolve();
+          });
       });
-    await this.instance.db.runMigrations({transaction: "all"});
-    await this.instance.ready();
-    this.instance.blipp();
-    return new Promise((resolve, reject) => {
-      this.instance.listen(
-        this.instance.config.SERVER_PORT,
-        this.instance.config.SERVER_ADDRESS, (err) => {
-          if (err) {
-            logger.error("Failed to start server: ", err);
-            reject();
-          }
-          resolve();
-        });
-    });
+    } catch (error) {
+      logger.error(`Error occurred during app startup because of: ${error.stack}`);
+      this.stop(undefined);
+    }
   }
 
-  public async stop(signal: string): Promise<void> {
-    await this.instance.close();
-    process.kill(process.pid, signal);
+  public async stop(signal: string | undefined): Promise<void> {
+    try {
+      await this.instance.db.close();
+      logger.info("Database connection closed");
+      await this.instance.close();
+      logger.info("App instance closed");
+    } catch (error) {
+      logger.error(`Error occurred during app stop because: ${error.stack}`);
+      await this.instance.db.close();
+      logger.info("Database connection closed");
+      await this.instance.close();
+      logger.info("App instance closed");
+    }
+    if (signal !== "TEST") {
+      process.kill(process.pid, signal);
+    }
+  }
+
+  private async initDb(): Promise<void> {
+    this.instance.decorate("db", await getDatabaseConnection());
+    await this.instance.db.runMigrations({transaction: "all"});
   }
 
   private registerPlugins(): void {
@@ -83,7 +102,7 @@ export class App {
         }
       }
     });
-    this.instance.register(fastifyMetrics,  {
+    this.instance.register(fastifyMetrics, {
       blacklist: '/metrics',
       enableDefaultMetrics: true
     });
