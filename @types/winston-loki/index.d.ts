@@ -5,6 +5,7 @@ declare module "winston-loki" {
 
   interface LokiTransportOptions {
     host: string;
+    basicAuth?: string;
     interval?: number;
     json?: boolean;
     batching?: boolean;
