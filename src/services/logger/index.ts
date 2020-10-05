@@ -25,6 +25,7 @@ if (process.env.WINSTON_LOKI_URL) {
   transportsConfig.push(new LokiTransport({
     host: process.env.WINSTON_LOKI_URL,
     batching: process.env.WINSTON_LOKI_BATCHING == "true",
+    basicAuth: process.env.WINSTON_LOKI_BASIC_AUTH ?? undefined,
     labels: {
       app: process.env.WINSTON_LOKI_APP_NAME ?? "",
     }
