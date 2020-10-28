@@ -10,7 +10,7 @@
   "scripts": {
     "start:dev": "npx task dev",
     "db:migration:new": "yarn run typeorm-ts migration:create -n ",
-    "db:migration:generate": "yarn run typeorm-ts migration:generate -n ",
+    "db:migration:generate": "npx task npm typeorm-ts migration:generate -n ",
     "db:entity:new": "yarn run typeorm-ts entity:create -n ",
     "db:subscriber:new": "yarn run typeorm-ts subscriber:create -n ",
     "db:migrate": "npx task npm typeorm-ts migration:run",
@@ -54,7 +54,7 @@
     "pg-native": "^3.0.0",
     "typeorm": "^0.2.24",
     "typeorm-seeding": "^1.4.4",
-    "winston-loki": "^6.0.0-rc.2"
+    "winston-loki": "6.0.0-rc.4"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
