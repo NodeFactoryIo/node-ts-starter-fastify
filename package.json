@@ -54,7 +54,7 @@
     "pg-native": "^3.0.0",
     "typeorm": "^0.2.24",
     "typeorm-seeding": "^1.4.4",
-    "winston-loki": "^6.0.0-rc.2"
+    "winston-loki": "6.0.0-rc.4"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",

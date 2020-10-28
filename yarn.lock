@@ -4910,10 +4910,10 @@ widest-line@^3.1.0:
   dependencies:
     string-width "^4.0.0"
 
-winston-loki@^6.0.0-rc.2:
-  version "6.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/winston-loki/-/winston-loki-6.0.0-rc.2.tgz#7469143aa9866f8c5d095d54dd346cdcac531a1a"
-  integrity sha512-qIjRsaMjEx9vQ0HkGb0XBAZcVSsD3TRTsZNlsW8GxUx04pJt3x7qT6UWKCKmjDR3UuUC9EYt24zOi1DSuM3JYw==
+winston-loki@6.0.0-rc.4:
+  version "6.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/winston-loki/-/winston-loki-6.0.0-rc.4.tgz#46bcc7e034a1589c63c7def55d892772308f358a"
+  integrity sha512-YS4ekmJlLb9hlBpQLmQoLM2Jvll4DvTO3hrc0sAefTahw8LmU0WvGCB/Sp4HCuWz3ZfH/8qPD5Yx4ASc3NqSbA==
   dependencies:
     async-exit-hook "2.0.1"
     btoa "^1.2.1"
