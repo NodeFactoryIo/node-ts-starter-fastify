@@ -1,14 +1,14 @@
 import {Stream, Transform} from "stream";
 import {logger} from "./index";
 import {IncomingMessage} from "http";
-import {FastifyRequest} from "fastify";
+import {FastifyLoggerOptions, FastifyRequest, RawServerDefault} from "fastify";
 
-class FastifyLogger {
+class FastifyLogger implements FastifyLoggerOptions<RawServerDefault, FastifyRequest & IncomingMessage> {
 
   public readonly stream: Stream;
 
   public readonly serializers = {
-    req: (request: IncomingMessage & FastifyRequest) => {
+    req: (request: FastifyRequest & IncomingMessage) => {
       return {msg: `${request.ip} -> ${request.hostname}\t${request.method}:${request.url}\tRequestId: ${request.id}`};
     },
   };

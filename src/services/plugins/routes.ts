@@ -1,9 +1,8 @@
-import {IncomingMessage, Server, ServerResponse} from "http";
-import {Plugin} from "fastify";
-import {registerRoutes} from "../../routes";
-import {onlyWhitelisted} from "../metrics/auth";
+import { FastifyPluginAsync } from "fastify";
+import { registerRoutes } from "../../routes";
+import { onlyWhitelisted } from "../metrics/auth";
 
-export const routesPlugin: Plugin<Server, IncomingMessage, ServerResponse, {}> = async function (instance) {
+export const routesPlugin: FastifyPluginAsync = async function (instance) {
   registerRoutes(instance);
   instance.route({
     url: "/metrics",

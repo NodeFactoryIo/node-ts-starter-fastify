@@ -1,9 +1,8 @@
-import {FastifyError, FastifyReply, FastifyRequest} from "fastify";
-import {ServerResponse} from "http";
+import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
 
 export async function onlyWhitelisted(
   request: FastifyRequest
-): Promise<FastifyReply<ServerResponse> | void> {
+): Promise<FastifyReply | void> {
   const whiteList = process.env.METRICS_IP_WHITELIST?.split(',');
   if (whiteList?.length === 1 && whiteList[0] === "*") {
     return;

@@ -7,6 +7,7 @@ interface GetQuery {
 }
 
 export const get: ApiController<GetQuery> = {
+  url: "/samples",
   handler: async function(request, reply) {
     logger.info("Fetching samples", {requestId: request.id});
     const sampleRepository = this.db.getCustomRepository(SampleRepository);

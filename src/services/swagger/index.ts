@@ -1,6 +1,7 @@
-import fastifySwagger from "fastify-swagger";
+import {FastifyDynamicSwaggerOptions} from "fastify-swagger";
 
-export const swaggerConfiguration: fastifySwagger.FastifyDynamicSwaggerOptions = {
+export const SWAGGER_CONFIG: FastifyDynamicSwaggerOptions = {
+  mode: "dynamic",
   exposeRoute: true,
   routePrefix: "/docs",
   swagger: {
