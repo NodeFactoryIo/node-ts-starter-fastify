@@ -1,7 +1,7 @@
 import fastify, { FastifyInstance } from "fastify";
 import fastifyCompress from "fastify-compress";
 import fastifyCors from "fastify-cors";
-import { fasitfyEnv } from "fastify-env";
+import fastifyEnv from "fastify-env";
 import fastifyFormBody from "fastify-formbody";
 import { fastifyHelmet } from "fastify-helmet";
 import fastifyRateLimit from "fastify-rate-limit";
@@ -10,7 +10,7 @@ import fastifySwagger from "fastify-swagger";
 import fastifyMetrics from "fastify-metrics";
 import fastifyHealthCheck from "fastify-healthcheck";
 import { Connection } from "typeorm";
-import { schema } from "./config";
+import { config as envPluginConfig } from "./config";
 import { getDatabaseConnection } from "./services/db";
 import { logger } from "./services/logger";
 import { routesPlugin } from "./services/plugins/routes";
@@ -41,6 +41,7 @@ export class App {
               logger.error("Failed to start server: ", err);
               reject();
             }
+            logger.info(`Started server on ${this.instance.config.SERVER_ADDRESS}:${this.instance.config.SERVER_PORT}`);
             resolve();
           });
       });
@@ -72,7 +73,7 @@ export class App {
   }
 
   private registerPlugins(): void {
-    this.instance.register(fasitfyEnv, {schema});
+    this.instance.register(fastifyEnv, envPluginConfig);
     this.instance.register(fastifyCompress, {global: true, encodings: ["gzip", "deflate"]});
     this.instance.register(fastifyCors, {origin: process.env.CORS_ORIGIN || true});
     this.instance.register(fastifyFormBody);
