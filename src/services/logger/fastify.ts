@@ -1,15 +1,20 @@
 import {Stream, Transform} from "stream";
 import {logger} from "./index";
 import {IncomingMessage} from "http";
-import {FastifyRequest} from "fastify";
+import {FastifyLoggerOptions, FastifyRequest, RawServerDefault} from "fastify";
 
-class FastifyLogger {
+function format(req: FastifyRequest<Record<string, unknown>, RawServerDefault>): {msg: string} {
+  return {msg: `${req.ip} -> ${req.hostname}\t${req.method}:${req.url}\tRequestId: ${req.id}`};
+}
+
+class FastifyLogger implements FastifyLoggerOptions {
 
   public readonly stream: Stream;
 
   public readonly serializers = {
-    req: (request: IncomingMessage & FastifyRequest) => {
-      return {msg: `${request.ip} -> ${request.hostname}\t${request.method}:${request.url}\tRequestId: ${request.id}`};
+    req: (request: IncomingMessage) => {
+      //not sure how to fix this type issue
+      return format(request as unknown as FastifyRequest<Record<string, unknown>, RawServerDefault>);
     },
   };
 

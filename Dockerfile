@@ -1,4 +1,4 @@
-FROM node:12.13-alpine as dev
+FROM node:14.15-alpine as dev
 
 RUN apk update && apk add --no-cache libpq postgresql-dev g++ make python && rm -rf /var/cache/apk/*
 
@@ -14,7 +14,7 @@ COPY . .
 
 RUN yarn run build
 
-FROM node:12.13-alpine as production
+FROM node:14.15-alpine as production
 
 RUN apk update && apk add --no-cache libpq postgresql-dev g++ make python && rm -rf /var/cache/apk/*
 

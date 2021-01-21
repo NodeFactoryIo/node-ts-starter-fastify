@@ -1,33 +1,30 @@
-import fastify, {FastifyInstance} from "fastify";
-import fastifyEnv from "fastify-env";
-import {IncomingMessage, Server, ServerResponse} from "http";
-import {Config, schema} from "./config";
+import fastify, { FastifyInstance } from "fastify";
 import fastifyCompress from "fastify-compress";
 import fastifyCors from "fastify-cors";
-import formBodyPlugin from "fastify-formbody";
-import fastifyHelmet from "fastify-helmet";
+import fastifyEnv from "fastify-env";
+import fastifyFormBody from "fastify-formbody";
+import { fastifyHelmet } from "fastify-helmet";
 import fastifyRateLimit from "fastify-rate-limit";
 import fastifySensible from "fastify-sensible";
 import fastifySwagger from "fastify-swagger";
-import {swaggerConfiguration} from "./services/swagger";
 import fastifyMetrics from "fastify-metrics";
-import fastifyBlipp from "@nodefactory/fastify-blipp";
 import fastifyHealthCheck from "fastify-healthcheck";
-import {Connection} from "typeorm";
-import {getDatabaseConnection} from "./services/db";
-import {routesPlugin} from "./services/plugins/routes";
-import {logger} from "./services/logger";
-import {fastifyLogger} from "./services/logger/fastify";
-
+import { Connection } from "typeorm";
+import { config as envPluginConfig } from "./config";
+import { getDatabaseConnection } from "./services/db";
+import { logger } from "./services/logger";
+import { routesPlugin } from "./services/plugins/routes";
+import { SWAGGER_CONFIG } from "./services/swagger";
+import { fastifyLogger } from "./services/logger/fastify";
 export class App {
 
-  public readonly instance: FastifyInstance<Server, IncomingMessage, ServerResponse, Config>;
+  public readonly instance: FastifyInstance;
 
   constructor() {
     this.instance = fastify({
       logger: fastifyLogger,
       return503OnClosing: true
-    }) as FastifyInstance<Server, IncomingMessage, ServerResponse, Config>;
+    });
     this.registerPlugins();
   }
 
@@ -36,7 +33,7 @@ export class App {
       await this.initDb();
 
       await this.instance.ready();
-      this.instance.blipp();
+      logger.info(this.instance.printRoutes());
       return new Promise((resolve, reject) => {
         this.instance.listen(
           this.instance.config.SERVER_PORT,
@@ -59,10 +56,11 @@ export class App {
       .catch(error =>
         logger.error(`Error occurred during database closing because: ${error.message}`)
       );
-    await this.instance.close()
-      .catch(error =>
-        logger.error(`Error occurred during server closing because: ${error.message}`)
-      );
+    try {
+      await this.instance.close();
+    } catch(e) {
+      logger.error(`Error occurred during server closing because: ${e.message}`);
+    }
 
     if (signal !== "TEST") {
       process.kill(process.pid, signal);
@@ -75,23 +73,17 @@ export class App {
   }
 
   private registerPlugins(): void {
-    this.instance.register(fastifyEnv, {schema});
+    this.instance.register(fastifyEnv, envPluginConfig);
     this.instance.register(fastifyCompress, {global: true, encodings: ["gzip", "deflate"]});
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.instance.register(fastifyCors as any, {origin: process.env.CORS_ORIGIN || true});
-    this.instance.register(formBodyPlugin);
+    this.instance.register(fastifyCors, {origin: process.env.CORS_ORIGIN || true});
+    this.instance.register(fastifyFormBody);
     this.instance.register(fastifyHelmet);
-    this.instance.register(fastifyRateLimit, {max: process.env.MAX_REQ_PER_MIN || 100, timeWindow: '1 minute'});
+    this.instance.register(fastifyRateLimit, {max: parseInt(process.env.MAX_REQ_PER_MIN || "100"), timeWindow: '1 minute'});
     this.instance.register(fastifySensible);
-    this.instance.register(fastifySwagger, swaggerConfiguration);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.instance.register(fastifyBlipp as any, {
-      blippLog: (message: string) => {
-        message.split("\n").forEach(logger.info);
-      }
-    });
+    this.instance.register(fastifySwagger, SWAGGER_CONFIG);
     this.instance.register(fastifyHealthCheck, {
       healthcheckUrl: "/health",
+      exposeUptime: true,
       underPressureOptions: {
         healthCheckInterval: 5000,
         healthCheck: async () => {
@@ -107,10 +99,8 @@ export class App {
   }
 }
 
-declare module "fastify" {
-
-  interface FastifyInstance<HttpServer, HttpRequest, HttpResponse, Config = {}> {
-    config: Config;
+declare module 'fastify' {
+  interface FastifyInstance {
     db: Connection;
   }
 }
