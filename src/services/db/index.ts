@@ -21,7 +21,7 @@ export async function getDatabaseConnection(): Promise<Connection> {
 
 async function openConnection(conn: Connection): Promise<Connection> {
   if(conn.isConnected) {
-    logger.info(`Connected to database at ${(conn.options as PostgresConnectionCredentialsOptions).url}`);
+    logger.info(`Connected to database at ${getUrl(conn.options as PostgresConnectionCredentialsOptions)}`);
     return conn;
   }
   try {
@@ -37,4 +37,8 @@ async function openConnection(conn: Connection): Promise<Connection> {
 export async function getRepository<T>(customRepository: ObjectType<T>): Promise<T> {
   const connection = await getDatabaseConnection();
   return connection.getCustomRepository<T>(customRepository);
+}
+
+function getUrl(opts: PostgresConnectionCredentialsOptions): string {
+  return (opts.url ?? `${opts.host}:${opts.port}`) + ` (${opts.database})`
 }

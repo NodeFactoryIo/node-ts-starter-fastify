@@ -15,13 +15,14 @@ import { getDatabaseConnection } from "./services/db";
 import { logger } from "./services/logger";
 import { routesPlugin } from "./services/plugins/routes";
 import { SWAGGER_CONFIG } from "./services/swagger";
-
+import { fastifyLogger } from "./services/logger/fastify";
 export class App {
 
   public readonly instance: FastifyInstance;
 
   constructor() {
     this.instance = fastify({
+      logger: fastifyLogger,
       return503OnClosing: true
     });
     this.registerPlugins();
@@ -32,7 +33,7 @@ export class App {
       await this.initDb();
 
       await this.instance.ready();
-      this.instance.printRoutes();
+      logger.info(this.instance.printRoutes());
       return new Promise((resolve, reject) => {
         this.instance.listen(
           this.instance.config.SERVER_PORT,
@@ -41,7 +42,6 @@ export class App {
               logger.error("Failed to start server: ", err);
               reject();
             }
-            logger.info(`Started server on ${this.instance.config.SERVER_ADDRESS}:${this.instance.config.SERVER_PORT}`);
             resolve();
           });
       });
