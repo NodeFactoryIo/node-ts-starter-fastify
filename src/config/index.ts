@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { fasitfyEnvOpt } from "fastify-env";
 
 export const config: fasitfyEnvOpt = {
