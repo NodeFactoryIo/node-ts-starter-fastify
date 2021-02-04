@@ -5,21 +5,21 @@ import {PostgresConnectionCredentialsOptions} from "typeorm/driver/postgres/Post
 import {TypeOrmLogger} from "../logger/typeorm";
 
 export async function getDatabaseConnection(): Promise<Connection> {
-  const opts = await getConnectionOptions();
   let conn: Connection;
   try {
     conn = getConnection();
   } catch{
-    conn = await createConnection({
-      ...opts,
-      logger: new TypeOrmLogger()
-    });
-    conn = await openConnection(conn);
+
+    conn = await openConnection();
   }
   return conn;
 }
 
-async function openConnection(conn: Connection): Promise<Connection> {
+async function openConnection(connection?: Connection): Promise<Connection> {
+  const conn = connection ?? await createConnection({
+    ...(await getConnectionOptions()),
+    logger: new TypeOrmLogger()
+  });
   if(conn.isConnected) {
     logger.info(`Connected to database at ${getUrl(conn.options as PostgresConnectionCredentialsOptions)}`);
     return conn;
