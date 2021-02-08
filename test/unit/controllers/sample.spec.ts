@@ -13,9 +13,9 @@ describe("sample controller", function () {
   let app: App;
   let sampleRepositoryStub: SinonStubbedInstance<SampleRepository>;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     logger.silent = true;
-    app = new App();
+    app = await App.init();
     sampleRepositoryStub = sinon.createStubInstance(SampleRepository);
     app.instance.decorate("db", {
       getCustomRepository: () =>  sampleRepositoryStub
@@ -24,7 +24,6 @@ describe("sample controller", function () {
 
   afterEach(async function () {
     logger.silent = false;
-    app.instance.metrics.client.register.clear();
   });
 
   it("get samples", async function () {
