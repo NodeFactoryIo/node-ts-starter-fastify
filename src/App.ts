@@ -34,16 +34,13 @@ export class App {
       return503OnClosing: true
     });
     const app = new App(instance);
-    instance.register(fastifyEnv, envPluginConfig);
-    await instance.after();
-    instance.register(routesPlugin);
-    await instance.after();
+    await app.registerPlugins();
     return app;
   }
 
   public async start(): Promise<void> {
     try {
-      await this.registerPlugins();
+
       await this.initDb();
       await this.instance.ready();
       logger.info(this.instance.printRoutes());
@@ -86,6 +83,8 @@ export class App {
   }
 
   private async registerPlugins(): Promise<void> {
+    this.instance.register(fastifyEnv, envPluginConfig);
+    await this.instance.after();
     this.instance.register(fastifyCompress, {global: true, encodings: ["gzip", "deflate"]});
     this.instance.register(fastifyCors, {origin: this.instance.config.CORS_ORIGIN});
     this.instance.register(fastifyFormBody);
@@ -103,10 +102,13 @@ export class App {
         }
       }
     });
-    this.instance.register(fastifyMetrics, {
-      blacklist: '/metrics',
-      enableDefaultMetrics: true
-    });
+    if(this.instance.config.NODE_ENV !== "test") {
+      this.instance.register(fastifyMetrics, {
+        blacklist: '/metrics',
+        enableDefaultMetrics: true
+      });
+    }
+    this.instance.register(routesPlugin);
   }
 }
 
