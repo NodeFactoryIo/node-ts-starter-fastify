@@ -13,6 +13,14 @@ export const config: fasitfyEnvOpt = {
         type: 'number',
         default: 3000
       },
+      CORS_ORIGIN: {
+        type: 'string',
+        default: "*"
+      },
+      MAX_REQ_PER_MIN: {
+        type: 'number',
+        default: 100
+      },
     }
   },
   env: true
@@ -23,6 +31,8 @@ declare module 'fastify' {
     config: { 
       SERVER_ADDRESS: string;
       SERVER_PORT: number;
+      CORS_ORIGIN: string;
+      MAX_REQ_PER_MIN: number;
     };
   }
 }

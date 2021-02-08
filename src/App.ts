@@ -25,11 +25,11 @@ export class App {
       logger: fastifyLogger,
       return503OnClosing: true
     });
-    this.registerPlugins();
   }
 
   public async start(): Promise<void> {
     try {
+      await this.registerPlugins();
       await this.initDb();
 
       await this.instance.ready();
@@ -72,13 +72,14 @@ export class App {
     await this.instance.db.runMigrations({transaction: "all"});
   }
 
-  private registerPlugins(): void {
+  private async registerPlugins(): Promise<void> {
     this.instance.register(fastifyEnv, envPluginConfig);
+    await this.instance.after();
     this.instance.register(fastifyCompress, {global: true, encodings: ["gzip", "deflate"]});
-    this.instance.register(fastifyCors, {origin: process.env.CORS_ORIGIN || true});
+    this.instance.register(fastifyCors, {origin: this.instance.config.CORS_ORIGIN});
     this.instance.register(fastifyFormBody);
     this.instance.register(fastifyHelmet);
-    this.instance.register(fastifyRateLimit, {max: parseInt(process.env.MAX_REQ_PER_MIN || "100"), timeWindow: '1 minute'});
+    this.instance.register(fastifyRateLimit, {max: this.instance.config.MAX_REQ_PER_MIN, timeWindow: '1 minute'});
     this.instance.register(fastifySensible);
     this.instance.register(fastifySwagger, SWAGGER_CONFIG);
     this.instance.register(fastifyHealthCheck, {
