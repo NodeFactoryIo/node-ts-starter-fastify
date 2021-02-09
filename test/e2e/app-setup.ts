@@ -1,10 +1,14 @@
 import {App} from "../../src/App";
-export const app = new App();
+
+let instance: App;
+
+export const app = (): App => instance;
 
 before(async () => {
-  await app.start();
+  instance = await App.init();
+  await instance.start();
 });
 
 after(async () => {
-  await app.stop("TEST");
+  await instance.stop("TEST");
 });

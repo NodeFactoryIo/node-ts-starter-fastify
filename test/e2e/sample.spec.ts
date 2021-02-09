@@ -13,7 +13,7 @@ describe("Sample e2e test", function () {
   });
 
   it("Should successfully query database", async function () {
-    const res = await app.instance.inject({
+    const res = await app().instance.inject({
       method: "GET",
       path: "/samples",
     });
