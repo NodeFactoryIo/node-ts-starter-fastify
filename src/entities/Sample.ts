@@ -8,5 +8,5 @@ export class Sample {
 
   @Column("varchar")
   public name!: string;
-    
+
 }

@@ -1,4 +1,5 @@
 import {FastifyInstance} from "fastify";
+
 import * as sampleController from "../controllers/sample";
 
 export function registerRoutes(server: FastifyInstance): void {

@@ -1,12 +1,14 @@
-import {App} from "../../../src/App";
-import {expect} from "chai";
 import * as assert from "assert";
+
+import {expect} from "chai";
 import sinon, {SinonStubbedInstance} from "sinon";
-import {SampleRepository} from "../../../src/repositories/sample";
 import {factory} from "typeorm-seeding";
+
+import {App} from "../../../src/App";
 import {Sample} from "../../../src/entities";
-import "../../../src/services/db/factories/sample.factory";
+import {SampleRepository} from "../../../src/repositories/sample";
 import {logger} from "../../../src/services/logger";
+import "../../../src/services/db/factories/sample.factory";
 
 describe("sample controller", function () {
 
@@ -18,7 +20,7 @@ describe("sample controller", function () {
     app = await App.init();
     sampleRepositoryStub = sinon.createStubInstance(SampleRepository);
     app.instance.decorate("db", {
-      getCustomRepository: () =>  sampleRepositoryStub
+      getCustomRepository: () => sampleRepositoryStub
     });
   });
 

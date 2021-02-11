@@ -8,7 +8,8 @@ module.exports = {
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
-    "prettier"
+    "prettier",
+    "eslint-plugin-import"
   ],
   "extends": [
     "eslint:recommended",
@@ -31,7 +32,7 @@ module.exports = {
     "prefer-const": "error",
     "no-consecutive-blank-lines": 0,
     "no-console": "error",
-    "@typescript-eslint/naming-convention": ["error", 
+    "@typescript-eslint/naming-convention": ["error",
       {selector: "default", format: ['camelCase']},
       {
         selector: [
@@ -52,6 +53,16 @@ module.exports = {
         modifiers: ["destructured"],
         format: null
       }
-  ],
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "parent", "internal", "sibling"],
+        "newlines-between": "always",
+        "alphabetize": {
+          order: 'asc'
+        }
+      },
+    ]
   }
 }
