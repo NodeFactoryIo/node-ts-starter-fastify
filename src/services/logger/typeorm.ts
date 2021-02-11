@@ -1,11 +1,12 @@
-import {Logger} from "typeorm";
 import {Logger as WinstonLogger} from "@nodefactory/winston";
+import {Logger} from "typeorm";
+
 import {logger} from "./index";
 
 export class TypeOrmLogger implements Logger {
-    
+
   private readonly logger: WinstonLogger;
-    
+
   constructor() {
     this.logger = logger.child({label: "database"});
   }

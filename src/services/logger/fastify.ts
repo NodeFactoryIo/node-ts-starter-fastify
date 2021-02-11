@@ -1,7 +1,9 @@
-import {Stream, Transform} from "stream";
-import {logger} from "./index";
 import {IncomingMessage} from "http";
+import {Stream, Transform} from "stream";
+
 import {FastifyLoggerOptions, FastifyRequest, RawServerDefault} from "fastify";
+
+import {logger} from "./index";
 
 function format(req: FastifyRequest<Record<string, unknown>, RawServerDefault>): {msg: string} {
   return {msg: `${req.ip} -> ${req.hostname}\t${req.method}:${req.url}\tRequestId: ${req.id}`};

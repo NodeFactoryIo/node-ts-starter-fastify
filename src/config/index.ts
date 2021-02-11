@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { fasitfyEnvOpt } from "fastify-env";
+import {fasitfyEnvOpt} from "fastify-env";
 
 export const config: fasitfyEnvOpt = {
   schema: {
@@ -32,7 +32,7 @@ export const config: fasitfyEnvOpt = {
 
 declare module 'fastify' {
   interface FastifyInstance {
-    config: { 
+    config: {
       NODE_ENV: string | "test" | "prod";
       SERVER_ADDRESS: string;
       SERVER_PORT: number;

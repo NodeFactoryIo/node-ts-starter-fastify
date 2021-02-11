@@ -1,6 +1,8 @@
 import {expect} from "chai";
-import {app} from "./app-setup";
+
 import {logger} from "../../src/services/logger";
+
+import {app} from "./app-setup";
 
 describe("Sample e2e test", function () {
 

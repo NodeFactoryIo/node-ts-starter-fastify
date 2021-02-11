@@ -1,21 +1,22 @@
-import fastify, { FastifyInstance } from "fastify";
+import fastify, {FastifyInstance} from "fastify";
 import fastifyCompress from "fastify-compress";
 import fastifyCors from "fastify-cors";
 import fastifyEnv from "fastify-env";
 import fastifyFormBody from "fastify-formbody";
-import { fastifyHelmet } from "fastify-helmet";
+import fastifyHealthCheck from "fastify-healthcheck";
+import {fastifyHelmet} from "fastify-helmet";
+import fastifyMetrics from "fastify-metrics";
 import fastifyRateLimit from "fastify-rate-limit";
 import fastifySensible from "fastify-sensible";
 import fastifySwagger from "fastify-swagger";
-import fastifyMetrics from "fastify-metrics";
-import fastifyHealthCheck from "fastify-healthcheck";
-import { Connection } from "typeorm";
-import { config as envPluginConfig } from "./config";
-import { getDatabaseConnection } from "./services/db";
-import { logger } from "./services/logger";
-import { routesPlugin } from "./services/plugins/routes";
-import { SWAGGER_CONFIG } from "./services/swagger";
-import { fastifyLogger } from "./services/logger/fastify";
+import {Connection} from "typeorm";
+
+import {config as envPluginConfig} from "./config";
+import {getDatabaseConnection} from "./services/db";
+import {logger} from "./services/logger";
+import {fastifyLogger} from "./services/logger/fastify";
+import {routesPlugin} from "./services/plugins/routes";
+import {SWAGGER_CONFIG} from "./services/swagger";
 export class App {
 
   public readonly instance: FastifyInstance;
@@ -68,7 +69,7 @@ export class App {
       );
     try {
       await this.instance.close();
-    } catch(e) {
+    } catch (e) {
       logger.error(`Error occurred during server closing because: ${e.message}`);
     }
 
@@ -102,7 +103,7 @@ export class App {
         }
       }
     });
-    if(this.instance.config.NODE_ENV !== "test") {
+    if (this.instance.config.NODE_ENV !== "test") {
       this.instance.register(fastifyMetrics, {
         blacklist: '/metrics',
         enableDefaultMetrics: true

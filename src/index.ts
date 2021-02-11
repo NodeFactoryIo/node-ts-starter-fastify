@@ -1,5 +1,6 @@
-import {App} from "./App";
 import nodeCleanup from "node-cleanup";
+
+import {App} from "./App";
 
 App.init().then((app) => {
   nodeCleanup(function (exitCode, signal) {
@@ -7,8 +8,6 @@ App.init().then((app) => {
     nodeCleanup.uninstall();
     return false;
   });
-  
+
   app.start();
 })
-
-
