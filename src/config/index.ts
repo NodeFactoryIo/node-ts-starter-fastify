@@ -1,36 +1,36 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {fasitfyEnvOpt} from "fastify-env";
+import { fasitfyEnvOpt } from "fastify-env";
 
 export const config: fasitfyEnvOpt = {
   schema: {
     type: "object",
     properties: {
       NODE_ENV: {
-        type: 'string',
-        default: 'prod'
+        type: "string",
+        default: "prod",
       },
       SERVER_ADDRESS: {
-        type: 'string',
-        default: '0.0.0.0'
+        type: "string",
+        default: "0.0.0.0",
       },
       SERVER_PORT: {
-        type: 'number',
-        default: 3000
+        type: "number",
+        default: 3000,
       },
       CORS_ORIGIN: {
-        type: 'string',
-        default: "*"
+        type: "string",
+        default: "*",
       },
       MAX_REQ_PER_MIN: {
-        type: 'number',
-        default: 100
+        type: "number",
+        default: 100,
       },
-    }
+    },
   },
-  env: true
+  env: true,
 };
 
-declare module 'fastify' {
+declare module "fastify" {
   interface FastifyInstance {
     config: {
       NODE_ENV: string | "test" | "prod";

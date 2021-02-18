@@ -1,9 +1,15 @@
-import {Connection, createConnection, getConnectionOptions, ObjectType, getConnection} from "typeorm";
-import {PostgresConnectionCredentialsOptions} from "typeorm/driver/postgres/PostgresConnectionCredentialsOptions";
+import {
+  Connection,
+  createConnection,
+  getConnectionOptions,
+  ObjectType,
+  getConnection,
+} from "typeorm";
+import { PostgresConnectionCredentialsOptions } from "typeorm/driver/postgres/PostgresConnectionCredentialsOptions";
 
-import {logger} from "../logger";
-import {TypeOrmLogger} from "../logger/typeorm";
-import {sleep} from "../utils";
+import { logger } from "../logger";
+import { TypeOrmLogger } from "../logger/typeorm";
+import { sleep } from "../utils";
 
 export async function getDatabaseConnection(): Promise<Connection> {
   const opts = await getConnectionOptions();
@@ -13,7 +19,7 @@ export async function getDatabaseConnection(): Promise<Connection> {
   } catch {
     conn = await createConnection({
       ...opts,
-      logger: new TypeOrmLogger()
+      logger: new TypeOrmLogger(),
     });
     conn = await openConnection(conn);
   }
@@ -22,7 +28,11 @@ export async function getDatabaseConnection(): Promise<Connection> {
 
 async function openConnection(conn: Connection): Promise<Connection> {
   if (conn.isConnected) {
-    logger.info(`Connected to database at ${getUrl(conn.options as PostgresConnectionCredentialsOptions)}`);
+    logger.info(
+      `Connected to database at ${getUrl(
+        conn.options as PostgresConnectionCredentialsOptions
+      )}`
+    );
     return conn;
   }
   try {
@@ -35,11 +45,13 @@ async function openConnection(conn: Connection): Promise<Connection> {
   }
 }
 
-export async function getRepository<T>(customRepository: ObjectType<T>): Promise<T> {
+export async function getRepository<T>(
+  customRepository: ObjectType<T>
+): Promise<T> {
   const connection = await getDatabaseConnection();
   return connection.getCustomRepository<T>(customRepository);
 }
 
 function getUrl(opts: PostgresConnectionCredentialsOptions): string {
-  return (opts.url ?? `${opts.host}:${opts.port}`) + ` (${opts.database})`
+  return (opts.url ?? `${opts.host}:${opts.port}`) + ` (${opts.database})`;
 }

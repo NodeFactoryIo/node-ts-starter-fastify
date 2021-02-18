@@ -1,14 +1,13 @@
-import {Logger as WinstonLogger} from "@nodefactory/winston";
-import {Logger} from "typeorm";
+import { Logger as WinstonLogger } from "@nodefactory/winston";
+import { Logger } from "typeorm";
 
-import {logger} from "./index";
+import { logger } from "./index";
 
 export class TypeOrmLogger implements Logger {
-
   private readonly logger: WinstonLogger;
 
   constructor() {
-    this.logger = logger.child({label: "database"});
+    this.logger = logger.child({ label: "database" });
   }
 
   log(level: "log" | "info" | "warn", message: unknown): void {
@@ -20,15 +19,15 @@ export class TypeOrmLogger implements Logger {
   }
 
   logQuery(query: string, parameters?: unknown[]): void {
-    this.logger.debug(query, {parameters});
+    this.logger.debug(query, { parameters });
   }
 
   logQueryError(error: string, query: string, parameters?: unknown[]): void {
-    this.logger.error(error, {query, parameters});
+    this.logger.error(error, { query, parameters });
   }
 
   logQuerySlow(time: number, query: string, parameters?: unknown[]): void {
-    this.logger.warn(query, {time, parameters});
+    this.logger.warn(query, { time, parameters });
   }
 
   logSchemaBuild(message: string): void {
