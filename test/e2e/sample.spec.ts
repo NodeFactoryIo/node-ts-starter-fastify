@@ -1,11 +1,10 @@
-import {expect} from "chai";
+import { expect } from "chai";
 
-import {logger} from "../../src/services/logger";
+import { logger } from "../../src/services/logger";
 
-import {app} from "./app-setup";
+import { app } from "./app-setup";
 
 describe("Sample e2e test", function () {
-
   beforeEach(async function () {
     logger.silent = true;
   });

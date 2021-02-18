@@ -18,6 +18,7 @@ module.exports = {
     "prettier"
   ],
   "rules": {
+    "prettier/prettier": ["error", {}, { usePrettierrc: true }],
     "@typescript-eslint/no-require-imports": "error",
     "@typescript-eslint/no-unused-vars": ["error", {
       "varsIgnorePattern": "^_"

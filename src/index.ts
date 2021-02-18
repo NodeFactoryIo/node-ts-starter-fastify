@@ -1,6 +1,6 @@
 import nodeCleanup from "node-cleanup";
 
-import {App} from "./App";
+import { App } from "./App";
 
 App.init().then((app) => {
   nodeCleanup(function (exitCode, signal) {
@@ -10,4 +10,4 @@ App.init().then((app) => {
   });
 
   app.start();
-})
+});

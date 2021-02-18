@@ -1,17 +1,16 @@
 import * as assert from "assert";
 
-import {expect} from "chai";
-import sinon, {SinonStubbedInstance} from "sinon";
-import {factory} from "typeorm-seeding";
+import { expect } from "chai";
+import sinon, { SinonStubbedInstance } from "sinon";
+import { factory } from "typeorm-seeding";
 
-import {App} from "../../../src/App";
-import {Sample} from "../../../src/entities";
-import {SampleRepository} from "../../../src/repositories/sample";
-import {logger} from "../../../src/services/logger";
+import { App } from "../../../src/App";
+import { Sample } from "../../../src/entities";
+import { SampleRepository } from "../../../src/repositories/sample";
+import { logger } from "../../../src/services/logger";
 import "../../../src/services/db/factories/sample.factory";
 
 describe("sample controller", function () {
-
   let app: App;
   let sampleRepositoryStub: SinonStubbedInstance<SampleRepository>;
 
@@ -20,7 +19,7 @@ describe("sample controller", function () {
     app = await App.init();
     sampleRepositoryStub = sinon.createStubInstance(SampleRepository);
     app.instance.decorate("db", {
-      getCustomRepository: () => sampleRepositoryStub
+      getCustomRepository: () => sampleRepositoryStub,
     });
   });
 
@@ -33,7 +32,7 @@ describe("sample controller", function () {
     try {
       const res = await app.instance.inject({
         method: "GET",
-        path: "/samples"
+        path: "/samples",
       });
       expect(res.json()).to.be.deep.equal([]);
     } catch (e) {
@@ -43,23 +42,21 @@ describe("sample controller", function () {
 
   it("get filtered samples", async function () {
     const sampleFactory = factory(Sample)();
-    const sample = await sampleFactory.make({name: "Test"});
-    sampleRepositoryStub.findByName.resolves([
-      sample,
-    ]);
+    const sample = await sampleFactory.make({ name: "Test" });
+    sampleRepositoryStub.findByName.resolves([sample]);
     try {
       const res = await app.instance.inject({
         method: "GET",
         path: "/samples",
         query: {
-          name: "Test"
-        }
+          name: "Test",
+        },
       });
       expect(res.json()).to.be.deep.equal([sample]);
-      expect(sampleRepositoryStub.findByName.withArgs("Test").calledOnce).to.be.true;
+      expect(sampleRepositoryStub.findByName.withArgs("Test").calledOnce).to.be
+        .true;
     } catch (e) {
       assert.fail(e);
     }
   });
-
 });

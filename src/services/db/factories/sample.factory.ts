@@ -1,6 +1,6 @@
-import {define} from "typeorm-seeding";
+import { define } from "typeorm-seeding";
 
-import {Sample} from "../../../entities";
+import { Sample } from "../../../entities";
 
 define(Sample, (faker) => {
   const sample = new Sample();
