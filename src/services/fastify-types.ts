@@ -21,7 +21,6 @@ export interface ApiController<
   Body = DefaultBody,
   Headers = DefaultHeaders
 > {
-  url: string;
   opts: RouteShorthandOptions;
   handler: RouteHandlerMethod<
     RawServerDefault,
