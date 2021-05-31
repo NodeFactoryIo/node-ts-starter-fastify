@@ -6,7 +6,6 @@ import fastifyFormBody from "fastify-formbody";
 import fastifyHealthCheck from "fastify-healthcheck";
 import { fastifyHelmet } from "fastify-helmet";
 import fastifyMetrics from "fastify-metrics";
-import fastifyRateLimit from "fastify-rate-limit";
 import fastifySensible from "fastify-sensible";
 import fastifySwagger from "fastify-swagger";
 import { Connection } from "typeorm";
@@ -101,10 +100,6 @@ export class App {
     });
     this.instance.register(fastifyFormBody);
     this.instance.register(fastifyHelmet);
-    this.instance.register(fastifyRateLimit, {
-      max: this.instance.config.MAX_REQ_PER_MIN,
-      timeWindow: "1 minute",
-    });
     this.instance.register(fastifySensible);
     this.instance.register(fastifySwagger, SWAGGER_CONFIG);
     this.instance.register(fastifyHealthCheck, {
