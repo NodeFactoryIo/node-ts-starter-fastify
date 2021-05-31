@@ -26,6 +26,7 @@
     "test:unit": "NODE_ENV=test nyc --all --include \"src/**/*.ts\"  mocha -r ts-node/register \"test/unit/**/*.spec.ts\"",
     "test:unit:ci": "NODE_ENV=test nyc --reporter=lcov --all --include \"src/**/*.ts\"  mocha -r ts-node/register \"test/unit/**/*.spec.ts\"",
     "test:e2e": "SERVER_PORT=0 mocha --timeout 30000 -r ts-node/register -r dotenv/config \"test/e2e/**/*.spec.ts\"",
+    "postinstall": "env-prompt -d .env.sample && task build",
     "init": "mkdir dist",
     "prebuild": "yarn run clean && yarn run init",
     "build": "tsc -p tsconfig.build.json --sourceMap --outDir dist",
