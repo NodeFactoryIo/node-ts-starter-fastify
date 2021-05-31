@@ -8,7 +8,7 @@ WORKDIR /usr/app
 COPY yarn.lock .
 COPY package.json .
 
-RUN yarn install --non-interactive --frozen-lockfile && yarn cache clean
+RUN yarn install --ignore-scripts --non-interactive --frozen-lockfile && yarn cache clean
 
 COPY . .
 
@@ -28,6 +28,6 @@ RUN chown -R node: .
 
 USER node
 
-RUN yarn install  --non-interactive --frozen-lockfile --production && yarn cache clean
+RUN yarn install  --ignore-scripts --non-interactive --frozen-lockfile --production && yarn cache clean
 
 CMD ["node", "index.js"]
