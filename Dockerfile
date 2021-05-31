@@ -7,6 +7,7 @@ WORKDIR /usr/app
 # Install node dependencies - done in a separate step so Docker can cache it.
 COPY yarn.lock .
 COPY package.json .
+COPY .env.sample .
 
 RUN yarn install --ignore-scripts --non-interactive --frozen-lockfile && yarn cache clean
 
@@ -28,6 +29,6 @@ RUN chown -R node: .
 
 USER node
 
-RUN yarn install  --ignore-scripts --non-interactive --frozen-lockfile --production && yarn cache clean
+RUN yarn install --non-interactive --frozen-lockfile --production && yarn cache clean
 
 CMD ["node", "index.js"]

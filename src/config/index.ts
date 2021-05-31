@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { fasitfyEnvOpt } from "fastify-env";
+import { fastifyEnvOpt } from "fastify-env";
 
-export const config: fasitfyEnvOpt = {
+export const config: fastifyEnvOpt = {
   schema: {
     type: "object",
     properties: {
