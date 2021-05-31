@@ -1,17 +1,21 @@
-import pino from "pino";
+import fs from "fs";
 
-export let logger: pino.Logger;
+import pinoms, { prettyStream } from "pino-multi-stream";
+
+const streams: pinoms.Streams = [
+  {
+    level: (process.env.LOG_LEVEL as pinoms.Level) || "debug",
+    stream: prettyStream({
+      dest: process.stdout,
+    }),
+  },
+];
 
 if (process.env.LOG_FILE) {
-  logger = pino({
-    level: process.env.LOG_LEVEL || "debug",
+  streams.push({
+    level: (process.env.LOG_LEVEL as pinoms.Level) || "debug",
+    stream: fs.createWriteStream(process.env.LOG_FILE),
   });
-} else {
-  logger = pino(
-    {
-      level: process.env.LOG_LEVEL || "debug",
-      prettyPrint: true,
-    },
-    process.stdout
-  );
 }
+
+export const logger = pinoms({ streams });
