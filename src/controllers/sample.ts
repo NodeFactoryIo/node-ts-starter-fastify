@@ -1,15 +1,14 @@
 import { SampleRepository } from "../repositories/sample";
 import { ApiController } from "../services/fastify-types";
-import { logger } from "../services/logger";
 
 interface GetQuery {
   name?: string;
 }
 
 export const get: ApiController<GetQuery> = {
-  url: "/samples",
   handler: async function (request, reply) {
-    logger.info("Fetching samples", { requestId: request.id });
+    request.log.info("Fetching samples");
+
     const sampleRepository = this.db.getCustomRepository(SampleRepository);
     if (request.query.name) {
       reply.send(await sampleRepository.findByName(request.query.name));
@@ -17,6 +16,7 @@ export const get: ApiController<GetQuery> = {
       reply.send(await sampleRepository.find());
     }
   },
+
   opts: {
     schema: {
       querystring: {

@@ -16,7 +16,7 @@ services:
           - "${BACKEND_LOCAL_PORT:-3000}:${SERVER_PORT:-3000}"
           - "${DEBUG_PORT:-56745}:56745"
   db:
-    image: postgres:9.6-alpine
+    image: postgres:12-alpine
     volumes:
     - postgres:/var/lib/postgresql/data
     container_name: "${DB_CONTAINER_NAME:-nodejs-db}"
@@ -29,4 +29,3 @@ services:
 volumes:
   node_modules:
   postgres:
-

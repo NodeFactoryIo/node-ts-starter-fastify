@@ -1,10 +1,10 @@
-import { Logger as WinstonLogger } from "@nodefactory/winston";
+import pino from "pino";
 import { Logger } from "typeorm";
 
 import { logger } from "./index";
 
 export class TypeOrmLogger implements Logger {
-  private readonly logger: WinstonLogger;
+  private readonly logger: pino.Logger;
 
   constructor() {
     this.logger = logger.child({ label: "database" });
