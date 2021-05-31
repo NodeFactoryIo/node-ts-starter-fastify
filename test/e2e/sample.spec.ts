@@ -6,11 +6,11 @@ import { app } from "./app-setup";
 
 describe("Sample e2e test", function () {
   beforeEach(async function () {
-    logger.silent = true;
+    logger.level = "silent";
   });
 
   afterEach(async function () {
-    logger.silent = false;
+    logger.level = "silent";
   });
 
   it("Should successfully query database", async function () {

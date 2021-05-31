@@ -13,7 +13,7 @@ services:
           - .:/usr/app
           - node_modules:/usr/app/node_modules
     ports:
-          - "${BACKEND_LOCAL_PORT:-3000}:${SERVER_PORT:-3000}"
+          - "${BACKEND_LOCAL_PORT:-3001}:${SERVER_PORT:-3000}"
           - "${DEBUG_PORT:-56745}:56745"
   db:
     image: postgres:9.6-alpine
@@ -29,4 +29,3 @@ services:
 volumes:
   node_modules:
   postgres:
-

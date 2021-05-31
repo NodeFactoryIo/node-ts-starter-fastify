@@ -14,7 +14,6 @@ import { Connection } from "typeorm";
 import { config as envPluginConfig } from "./config";
 import { getDatabaseConnection } from "./services/db";
 import { logger } from "./services/logger";
-import { fastifyLogger } from "./services/logger/fastify";
 import { routesPlugin } from "./services/plugins/routes";
 import { SWAGGER_CONFIG } from "./services/swagger";
 export class App {
@@ -30,7 +29,7 @@ export class App {
    */
   public static async init(): Promise<App> {
     const instance = fastify({
-      logger: fastifyLogger,
+      logger: logger,
       return503OnClosing: true,
     });
     const app = new App(instance);
